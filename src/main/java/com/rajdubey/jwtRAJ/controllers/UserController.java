@@ -6,6 +6,7 @@ import com.rajdubey.jwtRAJ.exceptions.ResourceNotFoundException;
 import com.rajdubey.jwtRAJ.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<UserEntity> getAllUsers() {
         return userRepository.findAll();
     }
