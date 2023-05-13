@@ -33,16 +33,16 @@ public class SecurityConfig {
     @Bean
     //authentication
     public UserDetailsService userDetailsService() {
-        UserDetails admin = User.withUsername("raj")
-                .password("{noop}raj")
-                .roles("ADMIN")
-                .build();
-        UserDetails user = User.withUsername("aman")
-                .password("{noop}aman")
-                .roles("USER")
-                .build();
-        return new InMemoryUserDetailsManager(admin, user);
-//        return new UserInfoUserDetailsService();
+//        UserDetails admin = User.withUsername("raj")
+//                .password("{noop}raj")
+//                .roles("ADMIN")
+//                .build();
+//        UserDetails user = User.withUsername("aman")
+//                .password("{noop}aman")
+//                .roles("USER")
+//                .build();
+//        return new InMemoryUserDetailsManager(admin, user);
+        return new UserInfoUserDetailsService();
     }
 
     @Bean
