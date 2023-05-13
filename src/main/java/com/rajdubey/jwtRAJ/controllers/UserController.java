@@ -31,9 +31,17 @@ public class UserController {
     }
 
     @PostMapping
-    public UserEntity createUser(@RequestBody UserEntity user) {
-        return userRepository.save(user);
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> createUser(@RequestBody UserEntity user) {
+        // Check if a user with the same username already exists
+        UserEntity existingUser = userRepository.findByUsernameIgnoreCase(user.getUsername()).orElse(null);
+        if (existingUser != null) {
+            return ResponseEntity.badRequest().body("User with username " + user.getUsername() + " already exists");
+        }
+
+        return ResponseEntity.ok(userRepository.save(user));
     }
+
 
     @PutMapping("/{id}")
     public UserEntity updateUser(@PathVariable Long id, @RequestBody UserEntity updatedUser) {
@@ -47,6 +55,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         return userRepository.findById(id)
                 .map(user -> {
