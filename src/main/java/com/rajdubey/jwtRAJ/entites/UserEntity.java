@@ -30,10 +30,8 @@ public class UserEntity {
     private String email;
 
     @Column(nullable = false)
-    private String firstName;
+    private String name;
 
-    @Column(nullable = false)
-    private String lastName;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
@@ -41,4 +39,14 @@ public class UserEntity {
     private Set<String> roles;
 
     // constructors, getters, and setters
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

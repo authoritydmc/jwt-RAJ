@@ -40,7 +40,8 @@ public class TokenController {
             UserEntity user = userRepository.findByUsernameIgnoreCase(loginRequest.username()).orElse(null);
             if (user == null || (!user.getPassword().equals(loginRequest.password()))) {
                 res.put("success", false);
-                res.put("message", "Auth failed");
+                res.put("message", "Auth failed "
+                        + user);
                 return ResponseEntity.ok(res);
             }
 
@@ -48,7 +49,7 @@ public class TokenController {
             res.put("success", true);
             String token = jwtTokenProvider.generateToken(loginRequest.username());
             res.put("token", token);
-            res.put("roles",user.getRoles());
+            res.put("roles", user.getRoles());
             return ResponseEntity.ok(res);
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
